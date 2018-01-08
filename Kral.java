@@ -21,11 +21,15 @@ public class Kral extends Rollin{
         dice = firstRoll();
         Kral obj = new Kral(dice);
        
+       
         int[] getted = obj.getDice();
         for(int i = 0; i < 6; i++){
           System.out.println(getted[i]); 
           }
+        obj.handleRoll(1);
 
+        int[][][] newIndices = setIndices;
+     
     }
 
     /** initalises the first 6 dice as random integers from 1-6
@@ -49,7 +53,16 @@ public class Kral extends Rollin{
      * it doesn't matter where we write it. Find this out.
      */ 
     public int handleRoll(int roll){
-
+        int[][][] newIndices = setIndices;
+        if(isComplete()){
+            System.out.println("true 2 sets");
+        }else{
+            for (int[][] si : newIndices){
+                if (isSet(si[0]) || isSet(si[1])){
+                    System.out.println("we have 1 set");
+                }
+            }  
+        }
         return 1;
     }
     

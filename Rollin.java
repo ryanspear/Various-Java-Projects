@@ -12,7 +12,7 @@ public abstract class Rollin {
     two sets -- it represents all the possible partitions of the indices 0
     through 5 into two groups of three.
     */
-    private static final int[][][] setIndices = new int[][][]{
+    protected static final int[][][] setIndices = new int[][][]{
         {{0, 1, 2}, {3, 4, 5}},
         {{0, 1, 3}, {2, 4, 5}},
         {{0, 1, 4}, {2, 3, 5}},
@@ -87,7 +87,7 @@ public abstract class Rollin {
      * @param indices the indices
      * @return true if the dice at those indices form a set, false otherwise.
      */
-    private boolean isSet(int[] indices) {
+    public boolean isSet(int[] indices) {
         // First just get the values at those indices to save typing.
         int a = dice[indices[0]];
         int b = dice[indices[1]];
