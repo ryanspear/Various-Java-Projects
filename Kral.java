@@ -55,31 +55,65 @@ public class Kral extends Rollin{
      * it doesn't matter where we write it. Find this out.
      */ 
     public int handleRoll(int roll){
-        int[] set;
-        int[] noSet;
-        int[][][] newIndices = setIndices;
+        int[] set = new int[3];
+        int[] noSet = new int[3];
         if(isComplete()){
             System.out.println("true 2 sets");
         }else{
-            for (int[][] si : newIndices){
+            for (int[][] si : setIndices){
                 if (isSet(si[0])){
                         set = si[0];
                         noSet = si[1];
+                        break;
                     } else if(isSet(si[1])){
                         set = si[1];
                         noSet = si[0];
+                        break;
                 }
-            }  
+            }
+           System.out.println("Set:");
+           for(int i = 0; i < set.length; i++){
+                System.out.println("position: " + set[i] + ", Value: " + dice[set[i]]);
+            }
+
+           System.out.println("No set:");
+           for(int i = 0; i < noSet.length; i++){
+               System.out.println("position: " + noSet[i] + ", Value: " + dice[noSet[i]]);
+           }
+
+            
         }
-
-            // if theres a set we have it indexed.
-            //
-        
-    
-
+        twoOfThree(noSet);
         return 6;
     }
-    
 
 
+    /** Method tells us whether the noSet has a pair or a consecutive of two. This is needed to decide
+        whether to take the new roll or not
+        @returns void, but this should be changed later to return a couple of possible options:
+        a) the index of the number that isn't a pair or consecutive so it can be swapped easily
+        b) the indices of the two that are a pair or consecutive
+        c) true or false?
+        d) something else I haven't thought of.
+        @param noSet is the indices of the leftover values after the first set has been found.
+    */
+    public void twoOfThree(int[] noSet){
+        int[][] pairIndices = new int[][]{
+            {0,1},{0,2},{1,2}
+        };
+
+        for(int[] su : pairIndices){
+            if(dice[noSet[su[0]]] == dice[noSet[su[1]]]){ // if two are equal, its a pair
+                System.out.println("We have a pair");
+                System.out.println("1 at index: " + noSet[su[0]] + " with value: " + dice[noSet[su[0]]]);
+                System.out.println("other at index: " + noSet[su[1]] + " with value: " + dice[noSet[su[1]]]);
+                }
+            // if one is one less or one greater than the other then it is consecutive
+            if(dice[noSet[su[0]]] == dice[noSet[su[1]]] +1 || dice[noSet[su[0]]] == dice[noSet[su[1]]] -1){
+                System.out.println("We have a consecutive");
+                System.out.println("1 at index: " + noSet[su[0]] + " with value: " + dice[noSet[su[0]]]);
+                System.out.println("other at index: " + noSet[su[1]] + " with value: " + dice[noSet[su[1]]]);
+            }
+        }
+    }
 }
