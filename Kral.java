@@ -2,11 +2,13 @@ package rollin;
 
 import java.util.*;
 
-public class Kral extends Rollin{
+public class Kral{
 
 
     public static void main(String [] args){
-
+        int dice[] = new int[6];
+        dice = firstRoll();
+        System.out.println("Woohoo");
         
 
     }
@@ -25,6 +27,7 @@ public class Kral extends Rollin{
         return roll;
 
     }
+    
 
 
 }
