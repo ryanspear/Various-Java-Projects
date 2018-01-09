@@ -19,18 +19,19 @@ public class Kral extends Rollin{
     
     public static void main(String [] args){
         //dice = firstRoll();
-        int[] oneSet = {1,2,3,2,3,3};
+        int[] oneSet = {1,2,3,3,3,2};
         dice = oneSet;
         Kral obj = new Kral(dice);
        
        
         int[] getted = obj.getDice();
         for(int i = 0; i < 6; i++){
-          System.out.println(getted[i]); 
-          }
-        obj.handleRoll(1);
+            System.out.println(getted[i]); 
+        }
+        System.out.println("Swap the number in index: " + obj.handleRoll(3));
 
         int[][][] newIndices = setIndices;
+        System.out.println(obj.handleRoll(6));
         
     }
 
@@ -43,8 +44,8 @@ public class Kral extends Rollin{
         int i = 0;
         while(i < roll.length){
         
-        roll[i] = rnd.nextInt(6) +1;
-        i++;
+            roll[i] = rnd.nextInt(6) +1;
+            i++;
         }
 
         return roll;
@@ -62,44 +63,58 @@ public class Kral extends Rollin{
         }else{
             for (int[][] si : setIndices){
                 if (isSet(si[0])){
-                        set = si[0];
-                        noSet = si[1];
-                        break;
-                    } else if(isSet(si[1])){
-                        set = si[1];
-                        noSet = si[0];
-                        break;
+                    set = si[0];
+                    noSet = si[1];
+                    break;
+                } else if(isSet(si[1])){
+                    set = si[1];
+                    noSet = si[0];
+                    break;
                 }
             }
-           System.out.println("Set:");
-           for(int i = 0; i < set.length; i++){
-                System.out.println("position: " + set[i] + ", Value: " + dice[set[i]]);
-            }
+            if(isSet(set) && !isSet(noSet)) {
+                System.out.println("Set:");
+                for(int i = 0; i < set.length; i++){
+                    System.out.println("position: " + set[i] + ", Value: " + dice[set[i]]);
+                }
 
-           System.out.println("No set:");
-           for(int i = 0; i < noSet.length; i++){
-               System.out.println("position: " + noSet[i] + ", Value: " + dice[noSet[i]]);
-           }
-
-            
+                System.out.println("No set:");
+                for(int i = 0; i < noSet.length; i++){
+                    System.out.println("position: " + noSet[i] + ", Value: " + dice[noSet[i]]);
+                }
+            }    
         }
-
-        replacee(noSet);
+        //replacee(noSet);
         if(pair(noSet) != null){
-            System.out.println("There is a pair");
             int[] t = pair(noSet); // has the indices of the two that are a pair.
             if(roll == dice[t[0]]){
                 // swap for the other number, we need the index of it!!
                 for(int i = 0; i < noSet.length; i++){
                     if(dice[noSet[i]] != dice[t[0]]){
-                        dice[noSet[i]] = roll;
+                        return noSet[i];
                     }  
                 }
             }
         }
         if(consecutive(noSet) != null){
-            System.out.println("There is a consecutive");
+            int[] s = consecutive(noSet);
+            for(int i = 0; i < s.length; i++){
+                if(roll == dice[s[i]] + 1 || roll == dice[s[i]] - 1){
+                    int total = 0;
+                    for (int s_digit : s){
+                        total += s_digit;
+                    }
+                    for (int digit : set){
+                        total += digit;
+                    }
+                    return 15 - total;
+                }
+                    
+            }
         }
+
+        //here
+
         return 6;
     }
 
@@ -124,7 +139,7 @@ public class Kral extends Rollin{
                 System.out.println("1 at index: " + noSet[su[0]] + " with value: " + dice[noSet[su[0]]]);
                 System.out.println("other at index: " + noSet[su[1]] + " with value: " + dice[noSet[su[1]]]);
                 System.out.println("The one to be replaced should be!!: ");
-                }
+            }
             // if one is one less or one greater than the other then it is consecutive
             if(dice[noSet[su[0]]] == dice[noSet[su[1]]] +1 || dice[noSet[su[0]]] == dice[noSet[su[1]]] -1){
                 System.out.println("We have a consecutive");
@@ -136,10 +151,10 @@ public class Kral extends Rollin{
 
 
     /* if(pair() != null){
-        int[] pair = pair();
-        if(roll == pair[0]){
+       int[] pair = pair();
+       if(roll == pair[0]){
            
-        if(consecuvite != null){
+       if(consecuvite != null){
     */      
         
     public int[] pair(int[] noSet){
@@ -162,22 +177,22 @@ public class Kral extends Rollin{
 
 
     public int[] consecutive(int[] noSet){
-            int[] output = null;
-            int[][] pairIndices = new int[][]{
-                {0,1},{0,2},{1,2}
-            };
+        int[] output = null;
+        int[][] pairIndices = new int[][]{
+            {0,1},{0,2},{1,2}
+        };
 
-            for(int[] su : pairIndices){
-                if(dice[noSet[su[0]]] == dice[noSet[su[1]]] +1 || dice[noSet[su[0]]] == dice[noSet[su[1]]] -1){
-                    output = new int[2];
-                    output[0] = noSet[su[0]];
-                    output[1] = noSet[su[1]];
-                    return output;
-                }
+        for(int[] su : pairIndices){
+            if(dice[noSet[su[0]]] == dice[noSet[su[1]]] +1 || dice[noSet[su[0]]] == dice[noSet[su[1]]] -1){
+                output = new int[2];
+                output[0] = noSet[su[0]];
+                output[1] = noSet[su[1]];
+                return output;
             }
-
-            return output;
         }
+
+        return output;
+    }
 
         
 
