@@ -84,18 +84,18 @@ public class Kral extends Rollin{
             
         }
 
-        
+        replacee(noSet);
         if(pair(noSet) != null){
             System.out.println("There is a pair");
-            int[] t = pair(noSet);
-            System.out.println("No set: ");
-            for(int i = 0; i < noSet.length; i++){
-                System.out.println(noSet[i]);
-            }
-            
+            int[] t = pair(noSet); // has the indices of the two that are a pair.
             if(roll == dice[t[0]]){
-                // swap for the other number
+                // swap for the other number, we need the index of it!!
+                for(int i = 0; i < noSet.length; i++){
+                    if(dice[noSet[i]] != dice[t[0]]){
+                        dice[noSet[i]] = roll;
+                    }  
                 }
+            }
         }
         if(consecutive(noSet) != null){
             System.out.println("There is a consecutive");
@@ -123,6 +123,7 @@ public class Kral extends Rollin{
                 System.out.println("We have a pair");
                 System.out.println("1 at index: " + noSet[su[0]] + " with value: " + dice[noSet[su[0]]]);
                 System.out.println("other at index: " + noSet[su[1]] + " with value: " + dice[noSet[su[1]]]);
+                System.out.println("The one to be replaced should be!!: ");
                 }
             // if one is one less or one greater than the other then it is consecutive
             if(dice[noSet[su[0]]] == dice[noSet[su[1]]] +1 || dice[noSet[su[0]]] == dice[noSet[su[1]]] -1){
