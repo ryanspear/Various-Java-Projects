@@ -83,7 +83,23 @@ public class Kral extends Rollin{
 
             
         }
-        twoOfThree(noSet);
+
+        
+        if(pair(noSet) != null){
+            System.out.println("There is a pair");
+            int[] t = pair(noSet);
+            System.out.println("No set: ");
+            for(int i = 0; i < noSet.length; i++){
+                System.out.println(noSet[i]);
+            }
+            
+            if(roll == dice[t[0]]){
+                // swap for the other number
+                }
+        }
+        if(consecutive(noSet) != null){
+            System.out.println("There is a consecutive");
+        }
         return 6;
     }
 
@@ -97,7 +113,7 @@ public class Kral extends Rollin{
         d) something else I haven't thought of.
         @param noSet is the indices of the leftover values after the first set has been found.
     */
-    public void twoOfThree(int[] noSet){
+    public void replacee(int[] noSet){
         int[][] pairIndices = new int[][]{
             {0,1},{0,2},{1,2}
         };
@@ -116,4 +132,56 @@ public class Kral extends Rollin{
             }
         }
     }
+
+
+    /* if(pair() != null){
+        int[] pair = pair();
+        if(roll == pair[0]){
+           
+        if(consecuvite != null){
+    */      
+        
+    public int[] pair(int[] noSet){
+        int[] output = null;
+        int[][] pairIndices = new int[][]{
+            {0,1},{0,2},{1,2}
+        };
+
+        for(int[] su : pairIndices){
+            if(dice[noSet[su[0]]] == dice[noSet[su[1]]]){
+                output = new int[3];
+                output[0] = noSet[su[0]];
+                output[1] = noSet[su[1]];
+                return output;
+            }
+        }
+
+        return output;
+    }
+
+
+    public int[] consecutive(int[] noSet){
+            int[] output = null;
+            int[][] pairIndices = new int[][]{
+                {0,1},{0,2},{1,2}
+            };
+
+            for(int[] su : pairIndices){
+                if(dice[noSet[su[0]]] == dice[noSet[su[1]]] +1 || dice[noSet[su[0]]] == dice[noSet[su[1]]] -1){
+                    output = new int[2];
+                    output[0] = noSet[su[0]];
+                    output[1] = noSet[su[1]];
+                    return output;
+                }
+            }
+
+            return output;
+        }
+
+        
+
+    //public boolean consecutive(int[] noSet){
+        
+        
+    
 }
