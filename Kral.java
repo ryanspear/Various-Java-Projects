@@ -18,9 +18,13 @@ public class Kral extends Rollin{
      */
     
     public static void main(String [] args){
-        //dice = firstRoll();
-        int[] oneSet = {1,2,3,3,3,2};
+        // dice = firstRoll();
+        int[] oneSet = {6,6,3,4,3,3};
         dice = oneSet;
+        for(int i = 0; i < dice.length; i++){
+            System.out.print(dice[i] + ", ");
+        }
+        System.out.println("");
         Kral obj = new Kral(dice);
        
        
@@ -28,10 +32,9 @@ public class Kral extends Rollin{
         for(int i = 0; i < 6; i++){
             System.out.println(getted[i]); 
         }
-        System.out.println("Swap the number in index: " + obj.handleRoll(3));
 
         int[][][] newIndices = setIndices;
-        System.out.println(obj.handleRoll(6));
+        System.out.println(obj.handleRoll(5));
         
     }
 
@@ -84,7 +87,6 @@ public class Kral extends Rollin{
                 }
             }    
         }
-        //replacee(noSet);
         if(pair(noSet) != null){
             int[] t = pair(noSet); // has the indices of the two that are a pair.
             if(roll == dice[t[0]]){
@@ -95,8 +97,15 @@ public class Kral extends Rollin{
                     }  
                 }
             }
+            if(roll == dice[t[0]]+1 || roll == dice[t[0]]-1){
+                for(int i = 0; i < noSet.length; i++){
+                    if(dice[noSet[i]] != dice[t[0]]){
+                        return noSet[i];
+                    }
+                }
+            }
         }
-        if(consecutive(noSet) != null){
+        if(consecutive(noSet) != null){ // outsource this case later on.
             int[] s = consecutive(noSet);
             for(int i = 0; i < s.length; i++){
                 if(roll == dice[s[i]] + 1 || roll == dice[s[i]] - 1){
@@ -113,49 +122,66 @@ public class Kral extends Rollin{
             }
         }
 
-        //here
+      
 
-        return 6;
-    }
-
-
-    /** Method tells us whether the noSet has a pair or a consecutive of two. This is needed to decide
-        whether to take the new roll or not
-        @returns void, but this should be changed later to return a couple of possible options:
-        a) the index of the number that isn't a pair or consecutive so it can be swapped easily
-        b) the indices of the two that are a pair or consecutive
-        c) true or false?
-        d) something else I haven't thought of.
-        @param noSet is the indices of the leftover values after the first set has been found.
-    */
-    public void replacee(int[] noSet){
-        int[][] pairIndices = new int[][]{
-            {0,1},{0,2},{1,2}
-        };
-
-        for(int[] su : pairIndices){
-            if(dice[noSet[su[0]]] == dice[noSet[su[1]]]){ // if two are equal, its a pair
-                System.out.println("We have a pair");
-                System.out.println("1 at index: " + noSet[su[0]] + " with value: " + dice[noSet[su[0]]]);
-                System.out.println("other at index: " + noSet[su[1]] + " with value: " + dice[noSet[su[1]]]);
-                System.out.println("The one to be replaced should be!!: ");
-            }
-            // if one is one less or one greater than the other then it is consecutive
-            if(dice[noSet[su[0]]] == dice[noSet[su[1]]] +1 || dice[noSet[su[0]]] == dice[noSet[su[1]]] -1){
-                System.out.println("We have a consecutive");
-                System.out.println("1 at index: " + noSet[su[0]] + " with value: " + dice[noSet[su[0]]]);
-                System.out.println("other at index: " + noSet[su[1]] + " with value: " + dice[noSet[su[1]]]);
+        int[] sortedNoSet = sortNoSet(noSet);
+        if(roll == dice[sortedNoSet[1]] + 1){
+            return sortedNoSet[0];
+        } else {
+            if(roll == dice[sortedNoSet[1]] - 1){
+                return sortedNoSet[2];
             }
         }
+            
+        return 6;
     }
+        
+    /*     Arrays.sort(sortedNoSet);
+        int median = sortedNoSet[1];
+        System.out.println("median is in position: " + median);
+        if(roll == dice[median] + 1){
+            return sortedNoSet[0];
+        } else if(roll == dice[median] - 1){
+            return sortedNoSet[2];
+        }
+        return 6;
+        }*/
+    
+
+    
+    public int[] sortNoSet(int[] noSet){
+
+        
+        int[] sortedNoSet = noSet;
+        if(dice[noSet[0]] > dice[noSet[1]]){
+            int temp = 0;
+            temp = noSet[0];
+            sortedNoSet[0] = sortedNoSet[1];
+            sortedNoSet[1] = temp;
+        }
+        
+        if(dice[noSet[1]] > dice[noSet[2]]){
+            int temp1 = 0;
+            temp1 = noSet[1];
+            sortedNoSet[1] = sortedNoSet[2];
+            sortedNoSet[2] = temp1;
+        
+          
+        
+            if(dice[noSet[0]] > dice[noSet[1]]){
+                int temp2 = 0;
+                temp2 = noSet[0];
+                sortedNoSet[0] = sortedNoSet[1];
+                sortedNoSet[1] = temp2;
+            
+            }
+        }
+        
+        return sortedNoSet;
+    }
+        
 
 
-    /* if(pair() != null){
-       int[] pair = pair();
-       if(roll == pair[0]){
-           
-       if(consecuvite != null){
-    */      
         
     public int[] pair(int[] noSet){
         int[] output = null;
