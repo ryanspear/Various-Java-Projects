@@ -18,13 +18,15 @@ public class Kral extends Rollin{
      */
     
     public static void main(String [] args){
-        // dice = firstRoll();
-        int[] oneSet = {1,2,3,3,5,2};
-        dice = oneSet;
+        dice = firstRoll();
+        //int[] oneSet = {1,1,3,3,5,5};
+        //dice = oneSet;
+        
         for(int i = 0; i < dice.length; i++){
             System.out.print(dice[i] + ", ");
         }
         System.out.println("");
+        System.out.println("Roll: 5");
         Kral obj = new Kral(dice);
        
 
@@ -58,34 +60,36 @@ public class Kral extends Rollin{
         int[] noSet = new int[3];
         if(isComplete()){
             System.out.println("true 2 sets");
+            return 6;
         }else{
             for (int[][] si : setIndices){
                 if (isSet(si[0])){
                     set = si[0];
                     noSet = si[1];
-                    break;
+                    return oneSetDeal(set, noSet, roll);
+                    //break;
                 } else if(isSet(si[1])){
                     set = si[1];
                     noSet = si[0];
-                    break;
+                    return oneSetDeal(set, noSet, roll);
+                    //break;
                 }
             }
-            if(isSet(set) && !isSet(noSet)) {
-                System.out.println("Set:");
-                for(int i = 0; i < set.length; i++){
-                    System.out.println("position: " + set[i] + ", Value: " + dice[set[i]]);
-                }
 
-                System.out.println("No set:");
-                for(int i = 0; i < noSet.length; i++){
-                    System.out.println("position: " + noSet[i] + ", Value: " + dice[noSet[i]]);
-                }
-            }    
+            System.out.println("No sets made from initial roll");
+            return noSetsDeal(roll);   
         }
+    }
+
+    public int oneSetDeal(int[] set, int[] noSet, int roll){
+
+
+        /** if the 2 of 3 in noSet are a pair do this */
         if(pair(noSet) != null){
+            //System.out.println("There is a pair: ");
             int[] t = pair(noSet); // has the indices of the two that are a pair.
+            //System.out.println(dice[t[0]] + ", " + dice[t[1]]);
             if(roll == dice[t[0]]){
-                // swap for the other number, we need the index of it!!
                 for(int i = 0; i < noSet.length; i++){
                     if(dice[noSet[i]] != dice[t[0]]){
                         return noSet[i];
@@ -93,21 +97,16 @@ public class Kral extends Rollin{
                 }
             }
 
-            /**if(roll == dice[t[0]]+1 || roll == dice[t[0]]-1){
-                for(int i = 0; i < noSet.length; i++){
-                    if(dice[noSet[i]] != dice[t[0]]){
-                        return noSet[i];
-                    }
-                }
-                }*/
             int[] sortedNoSet = sortNoSet(noSet);
-            System.out.println("Sorted no Set");
+
             int average = (dice[sortedNoSet[0]] + dice[sortedNoSet[2]])/2;
             if(roll == average){
                 return sortedNoSet[1];
             }
             
         }
+        
+        /** if 2 of the 3 in noSet is consecutive do this */
         if(consecutive(noSet) != null){ // outsource this case later on.
             int[] s = consecutive(noSet);
             for(int i = 0; i < s.length; i++){
@@ -125,10 +124,10 @@ public class Kral extends Rollin{
             }
         }
 
-      
-
+        /** if it's neither, do this */
+        
         int[] sortedNoSet = sortNoSet(noSet);
-        System.out.println("Sorted no Set");
+
         int average = (dice[sortedNoSet[0]] + dice[sortedNoSet[2]])/2;
         if(roll == average){
             return sortedNoSet[1];
@@ -142,9 +141,34 @@ public class Kral extends Rollin{
         }
             
         return 6;
+
+
+
+    }
+
+
+    public int noSetsDeal(int roll){
+        for (int[][] si : setIndices){
+            int[] set1 = si[0];
+            int[] set2 = si[1];
+            int swap = oneSetDeal(set1, set2, roll);
+            if(swap != 6){
+                return swap;
+            }
+            
+            swap = oneSetDeal(set2, set1, roll);
+            if(swap != 6){
+                return swap;
+            }
+        }
+
+        return 6;
+
+
     }
         
 
+>>>>>>> handleRoll
     /** method sorts the 3 dice which aren't in a set into
         numerical order to find the median
         @return the sorted noSet
@@ -220,11 +244,5 @@ public class Kral extends Rollin{
 
         return output;
     }
-
-        
-
-    //public boolean consecutive(int[] noSet){
-        
-        
-    
+   
 }
