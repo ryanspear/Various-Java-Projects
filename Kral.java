@@ -166,9 +166,7 @@ public class Kral extends Rollin{
 
 
     }
-        
-
->>>>>>> handleRoll
+    
     /** method sorts the 3 dice which aren't in a set into
         numerical order to find the median
         @return the sorted noSet
