@@ -19,7 +19,7 @@ public class Kral extends Rollin{
     
     public static void main(String [] args){
         // dice = firstRoll();
-        int[] oneSet = {6,6,3,4,3,3};
+        int[] oneSet = {1,2,3,3,5,2};
         dice = oneSet;
         for(int i = 0; i < dice.length; i++){
             System.out.print(dice[i] + ", ");
@@ -27,14 +27,9 @@ public class Kral extends Rollin{
         System.out.println("");
         Kral obj = new Kral(dice);
        
-       
-        int[] getted = obj.getDice();
-        for(int i = 0; i < 6; i++){
-            System.out.println(getted[i]); 
-        }
 
         int[][][] newIndices = setIndices;
-        System.out.println(obj.handleRoll(5));
+        System.out.println(obj.handleRoll(4));
         
     }
 
@@ -97,13 +92,21 @@ public class Kral extends Rollin{
                     }  
                 }
             }
-            if(roll == dice[t[0]]+1 || roll == dice[t[0]]-1){
+
+            /**if(roll == dice[t[0]]+1 || roll == dice[t[0]]-1){
                 for(int i = 0; i < noSet.length; i++){
                     if(dice[noSet[i]] != dice[t[0]]){
                         return noSet[i];
                     }
                 }
+                }*/
+            int[] sortedNoSet = sortNoSet(noSet);
+            System.out.println("Sorted no Set");
+            int average = (dice[sortedNoSet[0]] + dice[sortedNoSet[2]])/2;
+            if(roll == average){
+                return sortedNoSet[1];
             }
+            
         }
         if(consecutive(noSet) != null){ // outsource this case later on.
             int[] s = consecutive(noSet);
@@ -125,6 +128,11 @@ public class Kral extends Rollin{
       
 
         int[] sortedNoSet = sortNoSet(noSet);
+        System.out.println("Sorted no Set");
+        int average = (dice[sortedNoSet[0]] + dice[sortedNoSet[2]])/2;
+        if(roll == average){
+            return sortedNoSet[1];
+        }
         if(roll == dice[sortedNoSet[1]] + 1){
             return sortedNoSet[0];
         } else {
@@ -136,19 +144,12 @@ public class Kral extends Rollin{
         return 6;
     }
         
-    /*     Arrays.sort(sortedNoSet);
-        int median = sortedNoSet[1];
-        System.out.println("median is in position: " + median);
-        if(roll == dice[median] + 1){
-            return sortedNoSet[0];
-        } else if(roll == dice[median] - 1){
-            return sortedNoSet[2];
-        }
-        return 6;
-        }*/
-    
 
-    
+    /** method sorts the 3 dice which aren't in a set into
+        numerical order to find the median
+        @return the sorted noSet
+        @param takes the unsorted noSet
+    */
     public int[] sortNoSet(int[] noSet){
 
         
