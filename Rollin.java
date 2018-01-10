@@ -1,18 +1,18 @@
 package rollin;
 
 /**
- * An abstract class for the Rollin' etude used in COCSC326 SS 2018.
+ * An abstract class for the Rollin' etude.
  *
  * @author Michael Albert
  */
 public abstract class Rollin {
 
     /*
-    A convenience array used in determining whether or not six dice form
-    two sets -- it represents all the possible partitions of the indices 0
-    through 5 into two groups of three.
+      A convenience array used in determining whether or not six dice form
+      two sets -- it represents all the possible partitions of the indices 0
+      through 5 into two groups of three.
     */
-    protected static final int[][][] setIndices = new int[][][]{
+    static final int[][][] setIndices = new int[][][]{
         {{0, 1, 2}, {3, 4, 5}},
         {{0, 1, 3}, {2, 4, 5}},
         {{0, 1, 4}, {2, 3, 5}},
@@ -55,7 +55,7 @@ public abstract class Rollin {
      * replaced, i.e, if the roll is replacing the value dice[2], then it should
      * return 2. If the roll is not being used, then it may return any value
      * outside of the range from 0 to 5 inclusive.
-     * 
+     * <p>
      * Note that while your class may have other methods, none of them should
      * modify the array dice, e.g., by sorting it, since the supervisor program
      * will expect the results of handleRoll to be applied to the original set
@@ -70,9 +70,10 @@ public abstract class Rollin {
 
     /**
      * Determine whether the current dice form two sets.
+     *
      * @return true if the dice form two sets, false otherwise
      */
-    public final boolean isComplete() {
+    public boolean isComplete() {
         for (int[][] si : setIndices) {
             if (isSet(si[0]) && isSet(si[1])) {
                 return true;
@@ -81,9 +82,10 @@ public abstract class Rollin {
         return false;
     }
 
+
     /**
      * Determine whether the dice at a given triple of indices form a set.
-     * 
+     *
      * @param indices the indices
      * @return true if the dice at those indices form a set, false otherwise.
      */
@@ -100,12 +102,16 @@ public abstract class Rollin {
         if (a == b || a == c || b == c) {
             return false;
         }
-        
+
         // If all three are different and largest minus smallest is 2 then it
         // is a set, otherwise not.
         int max = Math.max(a, Math.max(b, c));
         int min = Math.min(a, Math.min(b, c));
         return max - min == 2;
+    }
+
+    void setDice(int[] dice) {
+        this.dice = dice;
     }
 
 }
